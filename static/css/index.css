@@ -1,0 +1,23 @@
+#content {
+    width : 700px;
+    height : 100px;
+    margin-left: 6%;
+    border-style: solid;
+    border-width: 0px;
+    display: none;
+}
+
+#adresse {
+    display: none;
+}
+
+#questionForm {
+    width : 700px;
+}
+
+#map {
+    width: 300px;
+    height: 300px;
+    display: none;
+    margin-left: 6%;
+}
