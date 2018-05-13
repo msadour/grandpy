@@ -47,6 +47,41 @@ form{
     100% { transform: rotate(360deg); }
 }
 
+/* ********************************************* Alert *********************************************  */
+
+#alert {
+    padding: 20px;
+    width: 500px;
+    height: 100px;
+    background-color: #CCC;
+    margin-top: 18%;
+    margin-left: 35%;
+    border: 2px solid #000000;
+    border-radius: 25px;
+    display: none;
+}
+
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: black;
+}
+
+#text_error {
+    margin-top: -1.5%;
+}
+
 /* ********************************************* Description *********************************************  */
 
 #content_description {

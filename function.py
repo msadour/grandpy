@@ -107,6 +107,7 @@ def extract_information_request(sentance):
     if is_search_on_all_sentance:
         dict_request['information'] = sentance
     else:
+        list_words_for_search = []
         for word in list_words:
             if "d'" in word:
                 list_words_for_search = list_words[list_words.index(word):]
@@ -130,11 +131,11 @@ def check_information_valide(information, type_search):
         place_check = get_emplacement_maps(information)
         if not place_check:
             dict_error['error_place'] = True
-    elif type_search == 'information':
+    elif type_search == 'description':
         information_check = get_description_wiki(information)
         if not information_check:
             dict_error['error_description'] = True
-    elif type_search == 'place information':
+    elif type_search == 'place description':
         place_check = get_emplacement_maps(information)
         information_check = get_description_wiki(information)
         if not place_check and not information_check:
