@@ -2,30 +2,84 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+
         <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
         <title>GrandPy</title>
     </head>
-    <body>
-        <form method="post">
-            <label>Ta question</label> : <input id="questionForm" type="text" name="question" />
-            <input type="button" id="button" value="Soumettre">
-        </form>
+    <body id="body">
 
 
-        <br >
-        <div id="content">
-            <p id="description"></p>
+        <div class="col-sm-12 container">
+            <div class="row" id="header">
+                <img id="img_header" src="{{ url_for('static', filename='img/header.png') }}">
+            </div>
+
+
+
+            <div class="row col-sm-12" id="question">
+                <form method="get" class="form-inline pull-right">
+                    <legend> Grand Py bot </legend>
+                    <label>Alors mon petit ! Dis-moi ce que tu veux savoir :</label><br />
+                    <input id="input_form" type="text" name="question" class="input-sm form-control"/>
+                    <input type="button" class="btn btn-primary btn-sm " id="button" value="Racontes moi !">
+
+                </form>
+            </div>
+
+            <div class="row col-sm-12" id="contain_loader">
+                <div id="loader"></div>
+                <p id="loader_text">Attend mon petit, je réfléchis ...</p>
+            </div>
+
+
+            <div class="row col-sm-12" id="content_description">
+                <br ><br >
+                <div  class="jumbotron">
+                    <p id="description">test</p>
+                </div><br >
+            </div>
+            <br ><br >
+            <div class="row thumbnail col-sm-12" id="emplacement">
+
+                <nav>
+                    <dl>
+                        <dt id="adresse">Emplacement :</dt>
+
+                    </dl>
+                </nav>
+
+                <section class="col-sm-12">
+                        <div id="map" class="jumbotron"></div>
+
+                </section>
+
+            </div>
+
+
+            <br ><br >
+            <div id="about_me">
+                <p id="my_name">Mehdi SADOUR - OpenClassrooms</p>
+                <a href="https://www.linkedin.com/in/mehdisadour/" id="linkedin">Linkedin</a>
+                <a href="https://github.com/msadour" id="github">GitHub</a>
+                <!--<a href="https://openclassrooms.com/membres/dimsfit" id="oc">OpenClassrooms</a>-->
+                <br ><br >
+            </div>
+
         </div>
-        <br >
-        <p id="adresse"></p>
-        <br >
-        <div id="map"></div>
+
+
 
         <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
         <script src="../static/js/request.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU03xryXnIa2xywviwVyWP_src_KALY-I&callback=initMap"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    </div>
 
 
     </body>
+
 
 </html>

@@ -46,6 +46,7 @@ WORD_ABOUT_INFORMATION = [
 	"renseignements",
 	"information",
 	"informations",
+	"histoire",
 	"savoir",
 	"renseigner",
 	"parler",
@@ -60,4 +61,20 @@ WORD_PLEASE = [
 	'stp',
 	'svp',
 	'please'
+]
+
+SENTANCE_DESCRIPTION_GRANDPY = [
+	"Voici son histoire mon petit : ",
+	"Laisse moi te raconter son histoire : ",
+	"Je vais donc t'en parler : ",
+	"Son histoire est tres interessante ! je te la raconte : ",
+	"Son histoire est tres interessante, la voici : ",
+]
+
+SENTANCE_PLACE_GRANDPY = [
+	"Haa je connais bien ce lieux, il se situe ici : ",
+	"Tu peut retrouver ce lieux là : ",
+	"Voici l'adresse mon poussin : ",
+	"N'hesite pas à y faire un tour, il se situe ici : ",
+	"C'est un endroit tres sympa! N'hesites pas t'y rendre, c'est là : ",
 ]

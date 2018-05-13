@@ -11,6 +11,7 @@ CSE_ID = '009839873311021651636:ffnd3ndvdby'
 def parse_sentance(sentance):
     sentance = sentance.replace("b\'", '')
     sentance = sentance.replace("b\'.", '.')
+    sentance = sentance.replace(".b", ".")
     sentance = sentance.replace("\'.", '.')
     sentance = sentance.replace('b"\\n', ' ')
     sentance = sentance.replace('"', '')
@@ -84,6 +85,7 @@ def extract_information_request(sentance):
     is_search_information = False
     is_search_on_all_sentance = False
     list_words = sentance.split(' ')
+    information = None
     for word in list_words:
         if word in WORD_ABOUT_EMPLACEMENT:
             is_search_emplacement = True
@@ -91,14 +93,15 @@ def extract_information_request(sentance):
             is_search_information = True
 
     if is_search_information == False and is_search_emplacement == False:
-        dict_request = {'type_search': 'place information'}
+        type_search = 'place description'
         is_search_on_all_sentance = True
     elif is_search_information == True and is_search_emplacement == True:
-        dict_request = {'type_search': 'place information'}
+        type_search = 'place description'
     elif is_search_information == True and is_search_emplacement == False:
-        dict_request = {'type_search': 'information'}
+        type_search = 'description'
     elif is_search_information == False and is_search_emplacement == True:
-        dict_request = {'type_search': 'place'}
+        type_search = 'place'
+    dict_request['type_search'] = type_search
 
     # Extract the keys word from request
     if is_search_on_all_sentance:
@@ -116,7 +119,32 @@ def extract_information_request(sentance):
         for word in WORD_PLEASE:
             information = information.replace(word, '')
         dict_request['information'] = information
+    error = check_information_valide(information, type_search)
+    dict_request.update(error)
     return dict_request
+
+
+def check_information_valide(information, type_search):
+    dict_error = {'error_place': False, 'error_description': False}
+    if type_search == 'place':
+        place_check = get_emplacement_maps(information)
+        if not place_check:
+            dict_error['error_place'] = True
+    elif type_search == 'information':
+        information_check = get_description_wiki(information)
+        if not information_check:
+            dict_error['error_description'] = True
+    elif type_search == 'place information':
+        place_check = get_emplacement_maps(information)
+        information_check = get_description_wiki(information)
+        if not place_check and not information_check:
+            dict_error['error_place'] = True
+            dict_error['error_description'] = True
+        if not place_check:
+            dict_error['error_place'] = True
+        elif not information_check:
+            dict_error['error_description'] = True
+    return dict_error
 
 
 # def get_type_search(sentance):
