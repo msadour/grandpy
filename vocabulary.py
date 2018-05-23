@@ -39,6 +39,7 @@ WORD_ABOUT_WHAT = [
 	"d'",
 	"des",
 	"sur",
+	"d'"
 ]
 
 WORD_ABOUT_INFORMATION = [

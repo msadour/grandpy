@@ -9,6 +9,11 @@ CSE_ID = '009839873311021651636:ffnd3ndvdby'
 
 
 def parse_sentance(sentance):
+    """
+    Clean ut8 character
+    :param sentance:
+    :return: sentance
+    """
     sentance = sentance.replace("b\'", '')
     sentance = sentance.replace("b\'.", '.')
     sentance = sentance.replace(".b", ".")
@@ -22,16 +27,27 @@ def parse_sentance(sentance):
     sentance = sentance.replace('\\x87', 'c')
     sentance = sentance.replace('\\x85', 'à')
     sentance = sentance.replace('\\x97', 'ù')
+    sentance = sentance.replace('?u', 'oeu')
     return sentance
 
 
-def translate(text):
+def translate(text, dest):
+    """
+    (Not used for the moment) Translate a text.
+    :param text:
+    :return: text_translate
+    """
     translator = Translator()
-    text_translate = translator.translate(text, dest='fr').text
+    text_translate = translator.translate(text, dest=dest).text
     return text_translate
 
 
 def get_emplacement_maps(search):
+    """
+    Get a emplacement on google maps of the search
+    :param search:
+    :return: dict_location
+    """
     try:
         gmaps = googlemaps.Client(key=API_KEY)
         # Geocoding an address
@@ -52,21 +68,31 @@ def get_emplacement_maps(search):
 
 
 def get_description_wiki(search):
+    """
+    Get a description from wikipedia.
+    :param search:
+    :return: description
+    """
     try:
         wikipedia.set_lang("fr")
         srch = wikipedia.search(search, "html.parser")
         data = wikipedia.page(srch, "html.parser").content
         data = data.split('.')
-        desc = ''
+        description = ''
         for d in data[:3]:
-            desc = desc + str(d.encode(sys.stdout.encoding, errors='replace')) + '.'
-        desc = parse_sentance(desc)
-        return desc
+            description = description + str(d.encode(sys.stdout.encoding, errors='replace')) + '.'
+            description = parse_sentance(description)
+        return description
     except:
         return False
 
 
 def get_type_place(place):
+    """
+    (Not used for the moment) Get type of place (city, street...).
+    :param place:
+    :return: type
+    """
     try:
         types_place_maps = get_emplacement_maps(place)['types'].split('/')
         for type in types_place_maps:
@@ -78,100 +104,71 @@ def get_type_place(place):
 
 
 def extract_information_request(sentance):
+    """
+    Extract good information from search
+    :param sentance:
+    :return: dict_request
+    """
     sentance = sentance.replace('?', '')
     sentance = sentance.replace('.', '')
     dict_request = {}
-    is_search_emplacement = False
-    is_search_information = False
-    is_search_on_all_sentance = False
     list_words = sentance.split(' ')
-    information = None
+    list_words_for_search = list_words
     for word in list_words:
-        if word in WORD_ABOUT_EMPLACEMENT:
-            is_search_emplacement = True
-        if word in WORD_ABOUT_INFORMATION:
-            is_search_information = True
+        if "d'" in word:
+            list_words_for_search = list_words[list_words.index(word):]
+            break
+        if word in WORD_ABOUT_WHAT:
+            list_words_for_search = list_words[list_words.index(word) + 1:]
+            break
 
-    if is_search_information == False and is_search_emplacement == False:
-        type_search = 'place description'
-        is_search_on_all_sentance = True
-    elif is_search_information == True and is_search_emplacement == True:
-        type_search = 'place description'
-    elif is_search_information == True and is_search_emplacement == False:
-        type_search = 'description'
-    elif is_search_information == False and is_search_emplacement == True:
-        type_search = 'place'
+    information = " ".join(list_words_for_search)
+    information = information.replace("d'", '')
+    for word in WORD_PLEASE:
+        information = information.replace(word, '')
+    dict_request['information'] = information
+    type_search = get_type_search(information)
     dict_request['type_search'] = type_search
-
-    # Extract the keys word from request
-    if is_search_on_all_sentance:
-        dict_request['information'] = sentance
-    else:
-        list_words_for_search = []
-        for word in list_words:
-            if "d'" in word:
-                list_words_for_search = list_words[list_words.index(word):]
-                break
-            if word in WORD_ABOUT_WHAT:
-                list_words_for_search = list_words[list_words.index(word) + 1:]
-                break
-        information = " ".join(list_words_for_search)
-        information = information.replace("d'", '')
-        for word in WORD_PLEASE:
-            information = information.replace(word, '')
-        dict_request['information'] = information
-    error = check_information_valide(information, type_search)
+    error = get_if_error(type_search)
     dict_request.update(error)
     return dict_request
 
 
-def check_information_valide(information, type_search):
+def get_type_search(information):
+    """
+    return type of search : place, description or twice
+    :param information:
+    :return: type of search
+    """
+    emplacement = get_emplacement_maps(information)
+    description = get_description_wiki(information)
+    if not emplacement and description:
+        return 'description'
+    elif emplacement and not description:
+        return 'place'
+    elif emplacement and description:
+        return 'place description'
+    else:
+        return 'error'
+
+
+def get_if_error(type_search):
+    """
+    Check (and return if it is) error for a search
+    :param type_search:
+    :return: error
+    """
     dict_error = {'error_place': False, 'error_description': False}
     if type_search == 'place':
-        place_check = get_emplacement_maps(information)
-        if not place_check:
-            dict_error['error_place'] = True
+        dict_error['error_description'] = True
     elif type_search == 'description':
-        information_check = get_description_wiki(information)
-        if not information_check:
-            dict_error['error_description'] = True
-    elif type_search == 'place description':
-        place_check = get_emplacement_maps(information)
-        information_check = get_description_wiki(information)
-        if not place_check and not information_check:
-            dict_error['error_place'] = True
-            dict_error['error_description'] = True
-        if not place_check:
-            dict_error['error_place'] = True
-        elif not information_check:
-            dict_error['error_description'] = True
+        dict_error['error_place'] = True
+    elif type_search == 'error':
+        dict_error['error_place'] = True
+        dict_error['error_description'] = True
+
     return dict_error
 
 
-# def get_type_search(sentance):
-#     sentance = sentance.lower()
-#     list_word = sentance.split(" ")
-#     if len(list_word) == 1:
-#         word = list_word[0]
-#         type_place = get_type_place(word)
-#         if type_place is not False:
-#             return 'place'
-#         else:
-#             wiki = get_description_wiki(word)
-#             if wiki is not False:
-#                 return 'information'
-#     else:
-#         is_place = False
-#         type_place = get_type_place(sentance)
-#         if type_place is not False:
-#             return 'place'
-#         else:
-#             for word in list_word:
-#                 if word in WORD_ABOUT_EMPLACEMENT:
-#                     is_place = True
-#             if is_place:
-#                 return 'place information'
-#             else:
-#                 return 'information'
-#     return 'error'
+
 

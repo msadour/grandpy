@@ -15,9 +15,12 @@
                 <img id="img_header" src="{{ url_for('static', filename='img/header.png') }}">
             </div>
 
+            <div id="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <p id="text_error">Je ne connais pas d'histoire sur ce que tu me demande mon poussin :)</p>
+            </div>
 
-
-            <div class="row col-sm-12" id="question">
+            <div class="row" id="question">
                 <form method="get" class="form-inline pull-right">
                     <legend> Grand Py bot </legend>
                     <label>Alors mon petit ! Dis-moi ce que tu veux savoir :</label><br />
@@ -27,24 +30,19 @@
                 </form>
             </div>
 
-            <div class="row col-sm-12" id="contain_loader">
+            <div class="row" id="contain_loader">
                 <div id="loader"></div>
                 <p id="loader_text">Attend mon petit, je réfléchis ...</p>
             </div>
 
-            <div id="alert">
-                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                <p id="text_error">ezfzef</p>
-            </div>
-
-            <div class="row col-sm-12" id="content_description">
+            <div class="row" id="content_description">
 
                 <div  class="jumbotron">
-                    <p id="description">test</p>
+                    <p id="description"></p>
                 </div><br >
             </div>
 
-            <div class="row thumbnail col-sm-12" id="emplacement">
+            <div class="row thumbnail" id="emplacement">
                 <nav>
                     <dl>
                         <dt id="adresse">Emplacement :</dt>
@@ -52,9 +50,8 @@
                     </dl>
                 </nav>
 
-                <section class="col-sm-12">
+                <section>
                         <div id="map" class="jumbotron"></div>
-
                 </section>
 
             </div>

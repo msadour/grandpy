@@ -17,6 +17,7 @@ def get_user_request():
     if request.method == "GET":
         request_user = request.args.get('question')
         information_extracted = extract_information_request(request_user)
+
         type_search = information_extracted['type_search']
         information = information_extracted['information']
         error = {'error_place': information_extracted['error_place'],

@@ -4,19 +4,20 @@
 
 /* ********************************************* Formulaire *********************************************  */
 #question {
-    margin-left: 14.7%;
+    margin-left: -14%;
     margin-top: 3%;
-    width : 1000px;
+    width : 100%;
 }
 
 form{
     background-color: #CCC;
     padding: 20px;
+    width : 67%;
 }
 
 #input_form {
-    width : 780px;
-    height: 35px;
+    width : 80%;
+    height: 5%;
 }
 
 /* ********************************************* Loader *********************************************  */
@@ -51,20 +52,21 @@ form{
 
 #alert {
     padding: 20px;
-    width: 500px;
-    height: 100px;
-    background-color: #CCC;
-    margin-top: 18%;
-    margin-left: 35%;
-    border: 2px solid #000000;
-    border-radius: 25px;
+    width: 67%;
+    height: 0.8%;
+    background-color: white;
+    margin-top: 3%;
+    margin-left: 18.8%;
+    border: 2px solid red;
+    border-radius: 15px;
     display: none;
 }
 
 /* The close button */
 .closebtn {
     margin-left: 15px;
-    color: white;
+    margin-top: -0.8%;
+    color: black;
     font-weight: bold;
     float: right;
     font-size: 22px;
@@ -79,15 +81,18 @@ form{
 }
 
 #text_error {
-    margin-top: -1.5%;
+    margin-top: -1%;
+    font-weight: bold;
+    /*font-size: 120%;*/
 }
 
 /* ********************************************* Description *********************************************  */
 
 #content_description {
     display: none;
-    margin-left: 18%;
-    width : 950px;
+    margin-top : 3.5%;
+    margin-left: 19%;
+    width: 67%;
 }
 
 
@@ -96,7 +101,7 @@ form{
     display: none;
     margin-left: 19%;
     margin-top : -5px;
-    width : 920px;
+    width: 67%;
 }
 
 #adresse {
@@ -105,7 +110,7 @@ form{
 }
 
 #map {
-    width: 800px;
+    width: 90%;
     height: 420px;
     margin-left: 4.5%;
     /*margin-left: 6%;*/
