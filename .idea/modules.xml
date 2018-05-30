@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/grandpy.iml" filepath="$PROJECT_DIR$/.idea/grandpy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/oc-grandpybot.iml" filepath="$PROJECT_DIR$/.idea/oc-grandpybot.iml" />
     </modules>
   </component>
 </project>
