@@ -83,7 +83,6 @@ form{
 #text_error {
     margin-top: -1%;
     font-weight: bold;
-    /*font-size: 120%;*/
 }
 
 /* ********************************************* Description *********************************************  */
@@ -113,7 +112,6 @@ form{
     width: 90%;
     height: 420px;
     margin-left: 4.5%;
-    /*margin-left: 6%;*/
 }
 
 
