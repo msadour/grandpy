@@ -28,6 +28,14 @@ def parse_sentance(sentance):
     sentance = sentance.replace('\\x85', 'à')
     sentance = sentance.replace('\\x97', 'ù')
     sentance = sentance.replace('?u', 'oeu')
+
+    sentance = sentance.replace("\xc3\xa9", 'é')
+    sentance = sentance.replace("\xc3\xa0", 'à')
+    sentance = sentance.replace("\xc3\xaa", 'ê')
+
+    sentance = sentance.replace("\xc5\x93", 'oe')
+
+
     return sentance
 
 
