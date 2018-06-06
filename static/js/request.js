@@ -34,49 +34,51 @@ function display_error(type_error) {
 
 $(function() {
     $('#button').click(function() {
-        $('#contain_loader').css( "display", "block" );
         $('#content_description').css( "display", "none" );
         $('#emplacement').css( "display", "none" );
         $('#alert').css( "display", "none" );
         var request = $('form').serialize();
-        $.ajax({
-            url: '/get_user_request',
-            data: request,
-            type: 'GET',
-            success: function(response) {
-                $('#contain_loader').css( "display", "none" );
-                var response_json = JSON.parse(response);
-                if (response_json['type_search'] == 'place'){
-                    adresse = response_json['emplacement']['adresse'];
-                    $('#emplacement').css( "display", "block" ).css("margin-top", "3%");
-                    $('#adresse').text(response_json['sentance_place'] + adresse);
-                    latitude = response_json['emplacement']['latitude']
-                    longitude = response_json['emplacement']['longitude']
-                    initMap(latitude, longitude, true)
-                    display_error("description");
-                }
-                else if(response_json['type_search'] == 'description'){
-                    $('#description').text(response_json['sentance_description'] + response_json['description']);
-                    $('#content_description').css( "display", "block").css("margin-top", "5%");
-                    display_error("place");
-                }
-                else if(response_json['type_search'] == 'place description'){
-                        $('#description').text(response_json['sentance_description'] + response_json['description']);
-                        $('#content_description').css( "display", "block" );
-                        adresse = response_json['emplacement']['adresse']
-                        $('#emplacement').css( "display", "block" );
+        if($('#input_form').val() != ''){
+            $('#contain_loader').css( "display", "block" );
+            $.ajax({
+                url: '/get_user_request',
+                data: request,
+                type: 'GET',
+                success: function(response) {
+                    $('#contain_loader').css( "display", "none" );
+                    var response_json = JSON.parse(response);
+                    if (response_json['type_search'] == 'place'){
+                        adresse = response_json['emplacement']['adresse'];
+                        $('#emplacement').css( "display", "block" ).css("margin-top", "3%");
                         $('#adresse').text(response_json['sentance_place'] + adresse);
                         latitude = response_json['emplacement']['latitude']
                         longitude = response_json['emplacement']['longitude']
                         initMap(latitude, longitude, true)
-                }
-                else {
+                        display_error("description");
+                    }
+                    else if(response_json['type_search'] == 'description'){
+                        $('#description').text(response_json['sentance_description'] + response_json['description']);
+                        $('#content_description').css( "display", "block").css("margin-top", "5%");
+                        display_error("place");
+                    }
+                    else if(response_json['type_search'] == 'place description'){
+                            $('#description').text(response_json['sentance_description'] + response_json['description']);
+                            $('#content_description').css( "display", "block" );
+                            adresse = response_json['emplacement']['adresse']
+                            $('#emplacement').css( "display", "block" );
+                            $('#adresse').text(response_json['sentance_place'] + adresse);
+                            latitude = response_json['emplacement']['latitude']
+                            longitude = response_json['emplacement']['longitude']
+                            initMap(latitude, longitude, true)
+                    }
+                    else {
+                        display_error();
+                    }
+                },
+                error: function(error) {
                     display_error();
                 }
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
+            });
+        }
     });
 });

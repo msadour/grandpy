@@ -8,6 +8,20 @@ API_KEY = 'AIzaSyAU03xryXnIa2xywviwVyWP_src_KALY-I'
 CSE_ID = '009839873311021651636:ffnd3ndvdby'
 
 
+def remove_accent(sentance):
+    sentance = sentance.replace('é', 'e')
+    sentance = sentance.replace('è', 'e')
+    sentance = sentance.replace('ê', 'e')
+    sentance = sentance.replace('à', 'a')
+    sentance = sentance.replace('ù', 'u')
+    sentance = sentance.replace('û', 'u')
+    sentance = sentance.replace('Ç', 'c')
+    sentance = sentance.replace('ç', 'c')
+    sentance = sentance.replace('œ', 'oe')
+
+    return sentance
+
+
 def parse_sentance(sentance):
     """
     Clean ut8 character
@@ -85,9 +99,8 @@ def get_description_wiki(search):
         data = wikipedia.page(srch, "html.parser").content
         data = data.split('.')
         description = ''
-        for d in data[:3]:
-            description = description + str(d.encode(sys.stdout.encoding, errors='replace')) + '.'
-            description = parse_sentance(description)
+        for sentance in data[:3]:
+            description = description + remove_accent(sentance)
         return description
     except:
         return False
@@ -127,16 +140,12 @@ def extract_information_request(sentance):
         if word in WORD_ABOUT_WHAT:
             list_words_for_search = list_words[list_words.index(word) + 1:]
             break
-
     information = " ".join(list_words_for_search)
     information = information.replace("d'", '')
     for word in WORD_PLEASE:
         information = information.replace(word, '')
     dict_request['information'] = information
-    type_search = get_type_search(information)
-    dict_request['type_search'] = type_search
-    error = get_if_error(type_search)
-    dict_request.update(error)
+    dict_request['type_search'] = get_type_search(information)
     return dict_request
 
 
